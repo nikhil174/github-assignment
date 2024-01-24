@@ -175,28 +175,28 @@ const searchUser = async (req: Request, res: Response) => {
 
         const conditions: string[] = [];
         const values: string[] = [];
-    
+
         for (const key in searchQuery) {
-          conditions.push(`${key} ILIKE $${conditions.length + 1}`);
-          values.push(`%${searchQuery[key]}%`);
+            conditions.push(`${key} ILIKE $${conditions.length + 1}`);
+            values.push(`%${searchQuery[key]}%`);
         }
-    
+
         const query = `SELECT * FROM users WHERE ${conditions.join(' OR ')} AND deleted = false`;
         // console.log(query);
         const userResult = await pool.query<UserDetails>(query, values);
-  
-      res.status(200).json({
-        success: true,
-        users: userResult.rows,
-      });
+
+        res.status(200).json({
+            success: true,
+            users: userResult.rows,
+        });
     } catch (error) {
-      console.error(error);
-      res.status(400).json({
-        success: false,
-        error: error.message,
-      });
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
     }
-  };
+};
 
 export {
     getUser,
