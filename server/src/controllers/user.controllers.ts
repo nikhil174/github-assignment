@@ -89,7 +89,35 @@ const getUser = async (req: Request, res: Response) => {
     }
 };
 
+const softDeleteUser = async (req: Request, res: Response) => {
+    try {
+        const { username } = req.params;
+        const userDetails = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1 AND deleted = false', [username]);
+
+        if (userDetails.rows.length === 0) {
+            throw new Error('User not found');
+        }
+
+        const user = userDetails.rows[0];
+        user.deleted = true;
+
+        await pool.query('UPDATE users SET deleted = true WHERE id = $1', [user.id]);
+
+        res.status(200).json({
+            success: true,
+            message: 'User deleted successfully',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
 
 export {
-    getUser
+    getUser,
+    softDeleteUser
 }
