@@ -37,6 +37,10 @@ const getUser = async (req: Request, res: Response) => {
     try {
         const { username } = req.params;
 
+        if (!username || username.trim().length === 0) {
+            throw new Error('Invalid username');
+        }
+
         // Use pool.query directly for asynchronous query execution
         const userResult = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1 LIMIT 1', [username]);
 
@@ -92,6 +96,10 @@ const getUser = async (req: Request, res: Response) => {
 const softDeleteUser = async (req: Request, res: Response) => {
     try {
         const { username } = req.params;
+        if (!username || username.trim().length === 0) {
+            throw new Error('Invalid username');
+        }
+
         const userDetails = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1 AND deleted = false', [username]);
 
         if (userDetails.rows.length === 0) {
@@ -120,6 +128,14 @@ const updateUser = async (req: Request, res: Response) => {
     try {
         const { location, blog, bio } = req.body;
         const { username } = req.params;
+
+        if (!username || username.trim().length === 0) {
+            throw new Error('Invalid username');
+        }
+
+        if (!location && !blog && !bio) {
+            throw new Error('Invalid request');
+        }
 
         const userResult = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1', [username]);
 
@@ -152,6 +168,10 @@ const getAllUsers = async (req: Request, res: Response) => {
     try {
         const { key, type } = req.body;
 
+        if (type !== 'ASC' && type !== 'DESC') {
+            throw new Error('Invalid Sorting type');
+        }
+
         const query = `SELECT * FROM users WHERE deleted = false ORDER BY ${key} ${type}`;
         const usersResult = await pool.query<UserDetails>(query);
         const users = usersResult.rows;
@@ -172,7 +192,6 @@ const getAllUsers = async (req: Request, res: Response) => {
 const searchUser = async (req: Request, res: Response) => {
     try {
         const searchQuery: Record<string, string> = req.body;
-
         const conditions: string[] = [];
         const values: string[] = [];
 
@@ -181,7 +200,12 @@ const searchUser = async (req: Request, res: Response) => {
             values.push(`%${searchQuery[key]}%`);
         }
 
-        const query = `SELECT * FROM users WHERE ${conditions.join(' OR ')} AND deleted = false`;
+        let query;
+        if (conditions.length > 0) {
+            query = `SELECT * FROM users WHERE ${conditions.join(' OR ')} AND deleted = false`;
+        } else {
+            query = `SELECT * FROM users WHERE deleted = false`;
+        }
         // console.log(query);
         const userResult = await pool.query<UserDetails>(query, values);
 
