@@ -8,7 +8,7 @@ import { config } from '../App';
 const Home = () => {
     const [username, setUsername] = useState('');
     const dispatch = useDispatch();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
         try {
@@ -17,14 +17,13 @@ const Home = () => {
             const userData = response['data']['userDetails'];
             response = await axios.get(userData['repos_url']);
             const repositories = response.data;
-            console.log(repositories);
 
             // Dispatch actions to update Redux store
             dispatch(setUserData(userData));
             dispatch(setRepositories(repositories));
 
             // Navigate to the user details page
-            // navigate(`/user/${username}`);  
+            navigate(`/user/${username}`);  
         } catch (error) {
             console.log(error);
         }
