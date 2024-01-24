@@ -116,8 +116,41 @@ const softDeleteUser = async (req: Request, res: Response) => {
     }
 };
 
+const updateUser = async (req: Request, res: Response) => {
+    try {
+        const { location, blog, bio } = req.body;
+        const { username } = req.params;
+
+        const userResult = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1', [username]);
+
+        if (userResult.rows.length === 0) {
+            throw new Error('User not found');
+        }
+
+        const user = userResult.rows[0];
+
+        if (location) user.location = location;
+        if (blog) user.blog = blog;
+        if (bio) user.bio = bio;
+
+        await pool.query('UPDATE users SET location = $1, blog = $2, bio = $3 WHERE id = $4', [location, blog, bio, user.id]);
+
+        res.status(200).json({
+            success: true,
+            user,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
 
 export {
     getUser,
-    softDeleteUser
+    softDeleteUser,
+    updateUser
 }
