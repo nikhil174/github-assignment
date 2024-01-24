@@ -14,13 +14,18 @@ const RepositoryDetails = () => {
     return (
         <div className='repository-details'>
             <GoBackBtn />
-            <h2>Repository Details for {repoName}</h2>
-            {/* Display repository details */}
             {selectedRepo && (
-                <div>
-                    <p>Name: {selectedRepo.name}</p>
-                    <p>Description: {selectedRepo.description}</p>
-                    {/* Add more details as needed */}
+                <div className="repo-des-container">
+                    <div className="repo-des-avatar-container">
+                        <img src={selectedRepo.owner.avatar_url} alt="User Avatar" className="user-avatar" />
+                    </div>
+                    <div className="repo-des-des-container">
+                        <h2 className='repo-name'>{repoName}</h2>
+                        <div className='repo-des-about'>
+                            <p>{selectedRepo.full_name}</p>
+                            <p>{selectedRepo.description}</p>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

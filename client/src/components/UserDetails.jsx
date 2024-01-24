@@ -34,9 +34,9 @@ const UserDetails = () => {
                 {repositories && repositories.map((repo) => (
                     <div key={repo.id} className='repo-item' onClick={() => handleRepoClick(repo.name)}>
                         <img src={repo.owner.avatar_url} alt='Avatar' className='repo-avatar' />
-                        <div className='repo-des-container'>
-                            <p className='repo-title'>{repo.name}</p>
-                            <p className='repo-description'>{repo.description}</p>
+                        <div className='repoItem-des-container'>
+                            <p className='repoItem-title'>{repo.name}</p>
+                            <p className='repoItem-description'>{repo.description}</p>
                         </div>
                     </div>
                 ))}
