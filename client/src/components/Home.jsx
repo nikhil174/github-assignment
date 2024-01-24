@@ -15,12 +15,9 @@ const Home = () => {
             // Perform API call to fetch user data and repositories
             let response = await axios.get(`${config.endpoint}/user/${username}`);
             const userData = response['data']['userDetails'];
-            response = await axios.get(userData['repos_url']);
-            const repositories = response.data;
 
             // Dispatch actions to update Redux store
             dispatch(setUserData(userData));
-            dispatch(setRepositories(repositories));
 
             // Navigate to the user details page
             navigate(`/user/${username}`);  
