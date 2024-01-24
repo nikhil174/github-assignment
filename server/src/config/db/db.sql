@@ -1,0 +1,21 @@
+CREATE DATABASE github;
+
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) UNIQUE NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  avatar_url VARCHAR(255) DEFAULT '',
+  repos_url VARCHAR(255) NOT NULL,
+  following_url VARCHAR(255) NOT NULL,
+  followers_url VARCHAR(255) NOT NULL,
+  location VARCHAR(255) DEFAULT '',
+  blog VARCHAR(255) DEFAULT '',
+  bio VARCHAR(255) DEFAULT '',
+  deleted BOOLEAN DEFAULT false,
+  public_repos INTEGER NOT NULL,
+  public_gists INTEGER NOT NULL,
+  followers INTEGER NOT NULL,
+  following INTEGER NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL,
+  friends TEXT ARRAY DEFAULT ARRAY[]::TEXT[]
+);
