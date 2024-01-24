@@ -148,9 +148,32 @@ const updateUser = async (req: Request, res: Response) => {
     }
 };
 
+const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const { key, type } = req.body;
+
+        const query = `SELECT * FROM users WHERE deleted = false ORDER BY ${key} ${type}`;
+        const usersResult = await pool.query<UserDetails>(query);
+        const users = usersResult.rows;
+
+        res.status(200).json({
+            success: true,
+            users,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
+
 
 export {
     getUser,
     softDeleteUser,
-    updateUser
+    updateUser,
+    getAllUsers
 }
