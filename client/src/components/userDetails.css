@@ -1,0 +1,65 @@
+.viewFollow-btn {
+    background-color: #28a745;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.viewFollowBtn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewFollow-btn:hover {
+    background-color: #218838;
+}
+
+.repo-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #d6cecead;
+    border-radius: 20px;
+}
+
+.repo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.repo-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.repo-des-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.repo-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: rgba(20, 33, 130, 0.832)
+}
+
+.repo-description {
+    font-size: 14px;
+    color: #586069;
+}

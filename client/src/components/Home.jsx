@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { setFollowers, setRepositories, setUserData, setUsername } from '../redux/userSlice';
 import axios from 'axios';
 import { config } from '../App';
+import './home.css'
 
 const Home = () => {
     const [localUsername, setLocalUsername] = useState('');
@@ -37,14 +38,18 @@ const Home = () => {
     };
 
     return (
-        <div>
-            <input
-                type="text"
-                value={localUsername}
-                onChange={(e) => setLocalUsername(e.target.value)}
-            />
-            <button onClick={handleSearch}>Search</button>
-        </div>
+        <div className="search-container">
+        <input
+          type="text"
+          value={localUsername}
+          onChange={(e) => setLocalUsername(e.target.value)}
+          className="search-input"
+          placeholder="Enter GitHub username"
+        />
+        <button onClick={handleSearch} className="search-button">
+          Search
+        </button>
+      </div>
     );
 };
 

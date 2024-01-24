@@ -4,10 +4,13 @@ import { setRepositories } from '../redux/userSlice';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import GoBackBtn from './GoBackBtn';
+import User from './User';
+import './userDetails.css';
 
 const UserDetails = () => {
+    const username = useSelector((state) => state.user.username);
     const repositories = useSelector((state) => state.user.repositories);
-    const userData = useSelector((state) => state.user.userData);
+
     const navigate = useNavigate();
 
     const handleRepoClick = (repoName) => {
@@ -17,21 +20,27 @@ const UserDetails = () => {
 
     const handleFollowersClick = () => {
         // Navigate to the followers page
-        navigate(`/user/${userData.username}/followers`);
+        navigate(`/user/${username}/followers`);
     };
 
     return (
         <div>
             <GoBackBtn />
-            <h2>User Details for {userData.username}</h2>
-            <button onClick={handleFollowersClick}>View Followers</button>
-            {repositories && repositories.map((repo) => (
-                <div key={repo.id}
-                    onClick={() => handleRepoClick(repo.name)}
-                >
-                    <p>{repo.name}</p>
-                </div>
-            ))}
+            <User />
+            <div className='viewFollowBtn-container'>
+                <button className='viewFollow-btn' onClick={handleFollowersClick}>View Followers</button>
+            </div>
+            <div className='repo-list'>
+                {repositories && repositories.map((repo) => (
+                    <div key={repo.id} className='repo-item' onClick={() => handleRepoClick(repo.name)}>
+                        <img src={repo.owner.avatar_url} alt='Avatar' className='repo-avatar' />
+                        <div className='repo-des-container'>
+                            <p className='repo-title'>{repo.name}</p>
+                            <p className='repo-description'>{repo.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

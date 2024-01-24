@@ -1,14 +1,15 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFollowers, setRepositories, setUsername } from '../redux/userSlice';
 import axios from 'axios';
 import { setUserData } from '../redux/userSlice';
 import { config } from '../App'
 import GoBackBtn from './GoBackBtn';
+import User from './User';
+import './followers.css';
 
 const Followers = () => {
-    const { username } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const followers = useSelector((state) => state.user.followers);
@@ -37,16 +38,20 @@ const Followers = () => {
     }
 
     return (
-        <div>
+        <div className="followers-container">
             <GoBackBtn />
-            <h2>User Details for {username}</h2>
-            {followers && followers.map((follower) => (
-                <div key={follower.login}
-                    onClick={() => handleClick(follower.login)}
-                >
-                    <p>{follower.login}</p>
-                </div>
-            ))}
+            <User />
+            <h2 className='followers-heading'>Followers</h2>
+            <ul className="followers-list">
+                {followers && followers.map((follower) => (
+                    <li key={follower.login} className="follower-item"
+                        onClick={() => handleClick(follower.login)}
+                    >
+                        <img src={follower.avatar_url} alt="Follower Avatar" className="follower-avatar" />
+                        <p className="follower-username">{follower.login}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };

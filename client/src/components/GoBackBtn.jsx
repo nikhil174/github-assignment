@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import './goBackBtn.css';
 
 const GoBackBtn = () => {
     const navigate = useNavigate();
@@ -8,8 +9,8 @@ const GoBackBtn = () => {
         navigate('/');
     };
     return (
-        <div>
-            <button onClick={handleBackClick}>Go to Search</button>
+        <div className='goBackBtn-container'>
+            <button className='goBackBtn' onClick={handleBackClick}>Go to Search</button>
         </div>
     )
 }

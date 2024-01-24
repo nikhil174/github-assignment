@@ -8,4 +8,4 @@
 ### For Frontend:
     1. update ip address of backend in inConfig.json file
     2. install all packages 
-    3. run the server
+    3. run the serverc
