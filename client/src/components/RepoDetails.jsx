@@ -1,27 +1,29 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import GoBackBtn from './GoBackBtn';
 
 const RepositoryDetails = () => {
-  const { repoName } = useParams();
-  const repositories = useSelector((state) => state.user.repositories);
+    const { repoName } = useParams();
+    const repositories = useSelector((state) => state.user.repositories);
 
-  // Find the selected repository based on repoName
-  const selectedRepo = repositories.find((repo) => repo.name === repoName);
+    // Find the selected repository based on repoName
+    const selectedRepo = repositories.find((repo) => repo.name === repoName);
 
-  return (
-    <div>
-      <h2>Repository Details for {repoName}</h2>
-      {/* Display repository details */}
-      {selectedRepo && (
+    return (
         <div>
-          <p>Name: {selectedRepo.name}</p>
-          <p>Description: {selectedRepo.description}</p>
-          {/* Add more details as needed */}
+            <GoBackBtn />
+            <h2>Repository Details for {repoName}</h2>
+            {/* Display repository details */}
+            {selectedRepo && (
+                <div>
+                    <p>Name: {selectedRepo.name}</p>
+                    <p>Description: {selectedRepo.description}</p>
+                    {/* Add more details as needed */}
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default RepositoryDetails;

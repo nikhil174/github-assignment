@@ -3,26 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setRepositories } from '../redux/userSlice';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import GoBackBtn from './GoBackBtn';
 
 const UserDetails = () => {
-    const dispatch = useDispatch();
     const repositories = useSelector((state) => state.user.repositories);
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Perform API call to fetch followers
-        const fetchRepositories = async () => {
-            let response = await axios.get(userData['repos_url']);
-            const repositories = response.data;
-            dispatch(setRepositories(repositories));
-        };
-
-        // Check if followers are not already fetched
-        if (repositories.length === 0) {
-            fetchRepositories();
-        }
-    }, [dispatch, repositories, userData]);
 
     const handleRepoClick = (repoName) => {
         // Navigate to the repository details page
@@ -36,6 +22,7 @@ const UserDetails = () => {
 
     return (
         <div>
+            <GoBackBtn />
             <h2>User Details for {userData.username}</h2>
             <button onClick={handleFollowersClick}>View Followers</button>
             {repositories && repositories.map((repo) => (

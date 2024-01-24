@@ -6,6 +6,7 @@ export const userSlice = createSlice({
     userData: null,
     repositories: [],
     followers: [],
+    username: '',
   },
   reducers: {
     setUserData: (state, action) => {
@@ -17,13 +18,11 @@ export const userSlice = createSlice({
     setFollowers: (state, action) => {
       state.followers = action.payload;
     },
+    setUsername: (state, action) => {
+      state.username = action.payload;
+    },
   },
 });
 
-export const { setUserData, setRepositories, setFollowers } = userSlice.actions;
-
-export const selectUserData = (state) => state.user.userData;
-export const selectRepositories = (state) => state.user.repositories;
-export const selectFollowers = (state) => state.user.followers;
-
+export const { setUserData, setRepositories, setFollowers, setUsername } = userSlice.actions;
 export default userSlice.reducer;
