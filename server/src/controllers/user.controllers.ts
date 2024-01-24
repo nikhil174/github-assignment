@@ -143,17 +143,25 @@ const updateUser = async (req: Request, res: Response) => {
             throw new Error('User not found');
         }
 
-        const user = userResult.rows[0];
+        let user = userResult.rows[0];
+        let query = 'UPDATE users SET';
+        if (location) query += ` location = '${location}',`;
+        if (blog) query += ` blog = '${blog}',`;
+        if (bio) query += ` bio = '${bio}',`;
 
-        if (location) user.location = location;
-        if (blog) user.blog = blog;
-        if (bio) user.bio = bio;
+        // Remove the trailing comma if there are conditions
+        if (query.endsWith(',')) {
+            query = query.slice(0, -1); // Remove the trailing comma
+        }
 
-        await pool.query('UPDATE users SET location = $1, blog = $2, bio = $3 WHERE id = $4', [location, blog, bio, user.id]);
-
+        query += ` WHERE id = ${user.id}`;
+        await pool.query(query);
+        // Fetch the updated user details
+        const updatedUserResult = await pool.query<UserDetails>('SELECT * FROM users WHERE username = $1', [username]);
+        const updatedUser = updatedUserResult.rows[0];
         res.status(200).json({
             success: true,
-            user,
+            updatedUser,
         });
     } catch (error) {
         console.error(error);
